@@ -61,8 +61,8 @@ class IntegerPrimitivesTests {
 	void getMinLong() {
 		assertEquals(Long.MIN_VALUE, IntegerPrimitives.getMinLong());
 	}
-//	@Test
-//	void getLengthLong() {
-//		assertEquals(8, IntegerPrimitives.getLengthLong());
-//	}
+	@Test
+	void getLengthLong() {
+		assertEquals(8, IntegerPrimitives.getLengthLong());
+	}
 }
