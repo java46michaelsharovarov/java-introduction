@@ -67,10 +67,12 @@ public class IntegerPrimitives {
 		return getLength(getMaxLong());
 	}
 	private static int getLength(long x) {
-		return (log2(x) + 2) / 8;
+		long res = 1;
+		int count = 1;
+		while(res < x && res > 0 ) {
+			res *= 2;
+			count++;						
+		}	
+		return count / 8;
 	}
-	private static int log2(long N) {
-        int result = (int)(Math.log(N) / Math.log(2)); 
-        return result;
-    }
 }
