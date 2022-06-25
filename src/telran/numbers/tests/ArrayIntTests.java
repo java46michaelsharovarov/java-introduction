@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import telran.numbers.ArrayInt;
+
 import java.util.Arrays;
 
 class ArrayIntTests {
@@ -13,42 +14,6 @@ class ArrayIntTests {
 	private static final int LARGE_N_NUMBERS = 1_000_00;
 	private static final int N_RUNS = 1000;
 	
-	@Test
-	void reference() {
-		int ar[] = {1, 2, 3, 4};
-		int ar1[] = ar;
-		ar1[1] = 100;
-		assertEquals(100, ar[1]);
-	}
-	@Test
-	void addNumber() {
-		int expected[] = {1, 2, -10, 20};
-		int ar[] = {1, 2, -10};
-		assertArrayEquals(expected, ArrayInt.addNumber(ar, 20));
-	}
-	@Test
-	void insertNumber() {
-		int expected[] = {1, 2, -10, 20};
-		int ar[] = {1, 2, 20};
-		assertArrayEquals(expected, ArrayInt.insertNumber(ar, 2, -10));
-	}
-	@Test
-	void removeNumber() {
-		int expected1[] = {1, 20};
-		int expected2[] = {2, 20};
-		int expected3[] = {1, 2};
-		int ar[] = {1, 2, 20};
-		assertArrayEquals(expected1, ArrayInt.removeNumber(ar, 1));
-		assertArrayEquals(expected2, ArrayInt.removeNumber(ar, 0));
-		assertArrayEquals(expected3, ArrayInt.removeNumber(ar, 2));
-	}
-	@Test
-	void indexOf() {
-		int ar[] = {1, 2, 20, 2};
-		assertEquals(1, ArrayInt.indexOf(ar, 2));
-		assertEquals(0, ArrayInt.indexOf(ar, 1));
-		assertEquals(-1, ArrayInt.indexOf(ar, 10));
-	}
 	@Test
 	void sortSmall() {
 		int ar[] = new int [SMALL_N_NUMBERS];
@@ -88,9 +53,8 @@ class ArrayIntTests {
 	@Test
 	void binaryIndexOfPerformance() {
 		int ar[] = new int[LARGE_N_NUMBERS];
-		int ar1[] = {0,2,4,6,8,10,12,15};
 		for(int i = 0; i < N_RUNS; i++) {
-			assertTrue(ArrayInt.binaryIndexOf(ar1, 1) < 0);
+			assertTrue(ArrayInt.binaryIndexOf(ar, 1) < 0);
 		}
 	}
 	private void runSortTest(int[] ar) {
