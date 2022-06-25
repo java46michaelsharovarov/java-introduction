@@ -32,4 +32,58 @@ public class ArrayInt {
 		}
 		return res;
 	}
+	public static void sort(int[] ar) {
+		int length = ar.length;
+		while(!moveMaxToEnd(ar, length)) {
+			length--;
+		}
+	}
+	private static boolean moveMaxToEnd(int[] ar, int length) {
+		int count = 0;
+		for(int i = 1; i < length; i++) {
+			if(ar[i-1] > ar[i]) {
+				swap(ar, i);
+			} else {
+				count++;
+			}
+		}
+		return count == length - 1 ? true : false;
+	}
+	private static void swap(int[] ar, int i) {
+		int tmp = ar[i - 1];
+		ar[i - 1] = ar[i];
+		ar[i] = tmp;
+	}
+	public static int binaryIndexOf(int[] ar, int number) {
+		int left = 0;
+		int right = ar.length - 1;
+		int middle = ar.length / 2;
+		int index = -1;
+		int nExistIndex = 0;
+		while(left <= right) {
+			if(ar[middle] < number) {
+				if(middle != right) { 
+					if(ar[middle + 1] > number) {
+						return -(middle + 1);
+					}
+					nExistIndex = ar.length;
+				}
+				left = middle + 1;
+			} else if(ar[middle] > number){
+				if(middle != left) {  
+					if(ar[middle - 1] < number) {
+						return -(middle + 1);
+					}
+					nExistIndex = 0;
+				}
+				right = middle - 1;
+			} else {
+				index =  middle;
+				right = middle - 1;
+			}
+			middle = (left + right) / 2;
+		}
+		return index >= 0 ? index : -(nExistIndex+1);
+		}
 }
+
