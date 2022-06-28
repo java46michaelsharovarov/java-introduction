@@ -8,7 +8,7 @@ import telran.numbers.ArrayInt;
 
 import java.util.Arrays;
 
-class ArrayIntTests {
+public class ArrayIntTests {
 
 	private static final int SMALL_N_NUMBERS = 100;
 	private static final int LARGE_N_NUMBERS = 1_000_00;
@@ -39,9 +39,10 @@ class ArrayIntTests {
 		assertEquals(-1, ArrayInt.binaryIndexOf(ar, -10));
 		assertEquals(-4, ArrayInt.binaryIndexOf(ar, 150));
 		assertEquals(-7, ArrayInt.binaryIndexOf(ar, 600));
-		assertEquals(5, ArrayInt.binaryIndexOf(ar, 500));
 		int ar1[] = {1, 1, 1, 1, 1};
 		assertEquals(0, ArrayInt.binaryIndexOf(ar1, 1));
+		assertEquals(-6, ArrayInt.binaryIndexOf(ar1, 2));
+		assertEquals(-1, ArrayInt.binaryIndexOf(ar1, 0));
 	}
 	@Test
 	void indexOfPerformance() {
