@@ -11,72 +11,74 @@ public class TictactoeGame {
 	 * 		   1 - game is over with the winner's move;
 	 *		   2 - game is over with draw;
 	 */
-	public static int tictactoeMove(char matrix[][], int numRow, int numColumn, char symb) {
-		int res = -1;	
-		int length = matrix.length;	
-		if (length == matrix[0].length && length >= 3) {
-			if(numRow < length && numColumn < length && (symb == 'X' || symb == '0')) {
-				matrix[numRow][numColumn] = symb;
-				boolean isElementsEqual = false;	
-				boolean hasEmptyElements = false;
-				int countEmptyElements = 0;				
-				//isRowFull
-				for(int i = 0; i < length; i++) {
-					for (int j = 1; j < length; j++) {
-						if(matrix[0][0] == matrix[i][j]) {
-							isElementsEqual =  true;
-						} else {
-							isElementsEqual =  false;
-							break;
-						}
-					}
-					if(isElementsEqual)  {
-						return res = 1;
-					}
-				}
-				//isColumnFull
-				for(int j = 0; j < length; j++) {
-					for(int i = 1; i < length; i++) {
-						if(matrix[0][j] == matrix [i][j]) {
-							isElementsEqual =  true;
-						} else {
-							isElementsEqual =  false;
-							break;
-						}
-					}
-					if(isElementsEqual)  {
-						return res = 1;
-					}
-				}
-				//isDiagonalsFull				
-				for(int i = 1; i < length; i++) {
-					if(matrix[0][0] == matrix[i][i]) {
-						isElementsEqual =  true;
-					} else {
-						isElementsEqual =  false;
-						break;
-					}
-				}
-				if(!isElementsEqual)  {
-					for(int i = length - 2, j = 1; i > 0; i--, j++) {
-						if(matrix[length - 1][0] == matrix[i][j]) {
-							isElementsEqual =  true;
-						} else {
-							isElementsEqual =  false;
-							break;
-						}					
-					}
-				} else {
-					return res = 1;
-				}				
-				//hasEmptyElements
-				for(int i = 0; i < length; i++) {
-					countEmptyElements += ArrayInt.indexOf(matrix[i], '\0') > 0 ? 1 : 0;
-				}
-				hasEmptyElements = countEmptyElements > 0 ? true : false; 
-				res = isElementsEqual ? 1 : hasEmptyElements ? 0 : 2;
-			}			
+	public static int tictactoeMove(char matrix[][], int nRow, int nCol, char symb) {
+		matrix[nRow][ nCol] = symb;
+		if(isFullRow(matrix, nRow, symb) || isFullColumn(matrix, nCol, symb)
+				|| isLeftDiagonal(matrix,nRow, nCol, symb) || isRightDiagonal(matrix, nRow, nCol, symb)) {
+			return 1;
+		}
+		if (isDraw(matrix)) {
+			return 2;
+		}
+		return 0;
+	}
+	private static boolean isFullRow(char[][] matrix, int row, char symb) {
+		boolean res = true;
+		for (int j = 0; j < matrix.length; j++) {
+			if (matrix[row][j] != symb) {
+				res = false;
+				break;
+			}
+		}
+		return res;
+	}	
+	private static boolean isFullColumn(char[][] matrix, int column, char symb) {
+		boolean res = true;
+		for (int i = 0; i < matrix.length; i++) {
+			if (matrix[i][column] != symb) {
+				res= false;
+				break;
+			}
 		}
 		return res;
 	}
+	private static boolean isRightDiagonal(char[][] matrix, int row, int column, char symb) {
+		
+		if (!isOnRightDiagonal(row, column, matrix.length - 1)) {
+			return false;
+		}	
+		for (int i = 0, j = matrix.length - 1; i < matrix.length ; i++, j--) {
+			if (matrix[i][j] != symb) {
+				return false;
+			}
+		}
+		return true;		
+	}
+	private static boolean isOnRightDiagonal(int row, int column, int maxIndex) {		
+		return row + column == maxIndex;
+	}
+	private static boolean isLeftDiagonal(char[][] matrix, int row, int column, char symb) {
+		if (!isOnLeftDiagonal(row, column)) {
+			return false;
+		}	
+		for (int i = 0, j = 0; i < matrix.length; i++, j++) {
+			if (matrix[i][j] != symb) {
+				return false;
+			}
+		}
+		return true;		
+	}
+	private static boolean isOnLeftDiagonal(int row, int column) {		
+		return row == column;
+	}
+	private static boolean isDraw(char[][] matrix) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				if (matrix[i][j] != 'X' && matrix[i][j] != '0') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}	
 }
