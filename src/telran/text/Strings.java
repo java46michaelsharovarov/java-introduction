@@ -1,104 +1,88 @@
 package telran.text;
 
-import java.util.Arrays;
-
-public class Strings {
-	/**
-	 * 
-	 * @param str1 ascii string with no repeated symbols
-	 * @param str2 ascii string with no repeated symbols
-	 * @return array with two numbers
-	 *    first - number of the symbols of the str2 that exist in str1 at the same indexes
-	 *    second - number of the symbols of the str2 that exist in str1 at different indexes
-	 */
-	public static int[] deepNoRepeatedCompare(String str1, String str2) {		
-		int[] resArr = {0, 0};
-		if (str1.isEmpty() || str2.isEmpty()) {
-			return resArr;
-		}	
-		int[] ar = new int[127];			
-	/** The first implementation O[N]**/			
-//		lookupTableImplem(str1, str2, resArr, ar);
-	/** The second implementation  O[N^2]**/
-		indexOfImplem(str1, str2, resArr);	
-		return resArr;		
+public class Strings {	
+	static public String join(String[] array, String delimiter) {
+		//STring "+" operator based solution
+//		return stringPluseSolution(array, delimiter);
+		//StringBuilder attend based solution
+		return stringBuilderSolution(array, delimiter);
 	}
-	private static void lookupTableImplem(String str1, String str2, int[] resArr, int[] ar) {
-		initialLookupTable(ar);
-		fillLookupTable(str1, ar);
-		getResultCompare(str2, resArr, ar);
-	}
-	private static void initialLookupTable(int[] ar) {
-		for(int i = 0; i < ar.length; i++) {
-			ar[i] = -1;
+	static private String stringBuilderSolution(String[] array, String delimiter) {
+		StringBuilder strBuilder = new StringBuilder(array[0]);
+		for(int i = 1; i < array.length; i++) {
+			strBuilder.append(delimiter).append(array[i]);
 		}
+		return strBuilder.toString();
 	}
-	private static void fillLookupTable(String str1, int[] ar) {
-		for(int i =0; i < str1.length(); i++) {
-			ar[str1.charAt(i)] = i;
+	static private String stringPluseSolution(String[] array, String delimiter) {
+		String res = array[0]; //assumption: there is at least one string
+		for(int i = 1; i < array.length; i++) {
+			res += delimiter + array[i] ;
 		}
-	}
-	private static void getResultCompare(String str2, int[] resArr, int[] ar) {
-		for(int index = 0; index < str2.length(); index++) {
-			int indexCompar = ar[str2.charAt(index)];
-			if(indexCompar >= 0) {
-				resArr[indexCompar == index ? 0 : 1]++;
-			}
-		}
-	}
-	private static void indexOfImplem(String str1, String str2, int[] resArr) {
-		for(int index = 0; index < str1.length(); index++) {	
-			int indexCompar = str2.indexOf(str1.charAt(index));
-			if(indexCompar >= 0) {
-				resArr[indexCompar == index ? 0 : 1]++;
-			}
-		}
+		return res;
 	}
 	/**
 	 * 
-	 * @param str1 English letters (may have repeats)
-	 * @param str2 English letters (may have repeats)
-	 * @return true if :
-	 *     (1) str2 has the same as str1 length
-	 *     (2) str2 comprises of all letters from str1
+	 * @param name1 -  first name 
+	 * @param name2 - second name
+	 * @return either "match" or "no match" in accordance to the comments (see TODO)
 	 */
-	public static boolean isAnagram(String str1, String str2) {
-		if (str1.length() != str2.length() || str1.isEmpty()) {
-			return false;
-		}	
-		int[] ar = new int[127];
-	/** The first implementation arrays.equals (case insensitive)**/
-//		int[] arCompar = new int[127];
-//		fillLookupTablesOccurrences(str1, str2, ar, arCompar);
-//		return Arrays.equals(ar, arCompar) ? true : false;
-	
-	/** The second implementation str.toCharArray with loop 'for'(case sensitive)**/
-		fillHelperOccurrences(str1, ar);
-		return getResultIsAnagram(str2, ar);		
-	}
-	private static void fillLookupTablesOccurrences(String str1, String str2, int[] ar, int[] arCompar) {
-		str1 = str1.toLowerCase();
-		str2 = str2.toLowerCase();
-		int str1Length = str1.length();
-		for(int i = 0; i < str1Length; i++) {
-			ar[str1.charAt(i)]++;
-			arCompar[str2.charAt(i)]++;
-		}
-	}
-	private static boolean getResultIsAnagram(String str, int[] helper) {
-		char[] strAr = str.toCharArray();
-		for(int i = 0; i < strAr.length; i++) {
-			int count = helper[strAr[i]]--;
-			if (count == 0) {
-				return false;
+	static public String matches(String name1, String name2) {
+		String arName1[] = name1.split(" ");
+		String arName2[] = name2.split(" ");
+		if(arName1[arName1.length - 1].length() == 1 || arName1[arName1.length - 1].length() == 1) {
+			if(Character.toLowerCase(arName1[arName1.length - 1].charAt(0))
+					!= Character.toLowerCase(arName2[arName2.length - 1].charAt(0))) {
+				return "no match";
 			}
 		}
-		return true;
+		 else {
+			 if (arName1[arName1.length - 1].compareToIgnoreCase(arName2[arName2.length - 1]) != 0){
+					return "no match";
+				}
+		 }
+		if(arName1.length == 1 && arName1.length == arName2.length) {
+			return "match";
+		}				
+		return compareFirstName(arName1, arName2);
 	}
-	private static void fillHelperOccurrences(String str, int[] helper) {
-		char[] strAr = str.toCharArray();
-		for(int i = 0; i < strAr.length; i++) {
-			helper[strAr[i]]++;
+	private static String compareFirstName(String[] arName1, String[] arName2) {
+		for(int i = 0; i < arName1.length; i++) {
+			for (int j = 0; j < arName2.length; j++) {
+				if (arName1[i].compareToIgnoreCase(arName2[j]) == 0) {
+					return "match";
+				} 
+			}
 		}
+		return "no match";
+	}
+	/**
+	 * sorts array of strings
+	 * @param strNumbers array of strings containing the positive integer numbers
+	 * length of each string can not be more than three symbols
+	 * String containing "123" should be greater than string containing "23" as the number 123 greater than
+	 * number 23
+	 */
+	static public String[] sortStringsAsNumbers(String[] strNumbers) {
+		int lookupTable[] = new int[1000];
+		fillLookupTable(lookupTable, strNumbers);
+		getResSortStrAsNum(lookupTable, strNumbers);
+		return strNumbers;
+	}
+	private static void getResSortStrAsNum(int[] lookupTable, String[] strNumbers) {
+		int currentIndex = 0;
+		for(int i = 0; i < lookupTable.length; i++) {
+			if(lookupTable[i] > 0) {
+				for(int j = 0; j < lookupTable[i]; j++) {
+					strNumbers[currentIndex++] = String.valueOf(i); 
+				}
+			}
+		}		
+	}
+	private static void fillLookupTable(int[] lookupTable, String[] strNumbers) {
+		for(int i = 0; i < strNumbers.length; i++) {
+			 int index = Integer.valueOf(strNumbers[i]);
+			 lookupTable[index]++;
+		}		
 	}
 }
