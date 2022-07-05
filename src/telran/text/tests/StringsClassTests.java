@@ -7,34 +7,6 @@ import org.junit.jupiter.api.Test;
 import static telran.text.Strings.*;
 
 class StringsClassTests {
-	private static final int N_RUNS = 10000;
-	private static final int N_STRINGS = 1;
-	@Test
-	void joinTest() {
-		String array[] = {"Hello", "Vasya"};
-		String expected = "Hello Vasya";
-		assertEquals(expected, join(array, " "));
-	}
-	@Test
-	void splitTest() {
-		String str = "Hello Vasya";
-		String expected[] = {"Hello", "Vasya"};
-		assertArrayEquals(expected, str.split(" "));
-	}
-	@Test
-	void joinPerformanceTest() {
-		String array[] = getBigArray();
-		for(int i = 0; i < N_RUNS; i++) {
-			join(array, " ");
-		}
-	}
-	private String[] getBigArray() {
-		String res[] = new String[N_STRINGS];
-		for (int i = 0; i < res.length; i++) {
-			res[i] = "Hello";
-		}
-		return res;
-	}
 	@Test
 	void matchesTest() {
 		assertEquals("match", matches("David", "david"));
