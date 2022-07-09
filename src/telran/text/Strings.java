@@ -1,5 +1,6 @@
 package telran.text;
 
+import static telran.text.RegularExpressions.*;
 public class Strings {	
 //	static public String matches(String name1, String name2) {
 //		String arName1[] = name1.split(" ");
@@ -92,5 +93,53 @@ public class Strings {
 			 int index = Integer.valueOf(strNumbers[i]);
 			 lookupTable[index]++;
 		}		
+	}
+	
+	
+	public static boolean isIPv4(String ipV4str) {		
+		return ipV4str.matches(ipV4Regex());
+	}
+	public static boolean isJavaVariable(String javaVariable) {		
+		return javaVariable.matches(javaVariableRegex());
+	}
+	public static boolean isArithmeticExpression(String expression) {
+		if(!checkParentheses(expression)) {
+			return false;
+		}	
+		return removeSpacesAndParentheses(expression).matches(arithmeticExpression());
+	}
+	/**
+	 * 
+	 * @param expression
+	 * @return true if for each '(' there is ')'
+	 * examples: (ab)(dg(g)) - true
+	 * (ab))((cd) - false
+	 */
+	private static boolean checkParentheses(String expression) {
+		int strLength = expression.length();
+		int parenthesesCount = 0;
+		for(int i = 0; i < strLength; i++) {
+			if(expression.charAt(i) == '(') {
+				parenthesesCount++;
+			} else if (expression.charAt(i) == ')') {
+				parenthesesCount--;
+				if(parenthesesCount < 0) {
+					return false;
+				}
+			}
+		}
+		return parenthesesCount == 0 || false;
+	}
+	/**
+	 * 
+	 * @param expression
+	 * returns string with no parentheses and no spaces
+	 */
+//	private static String removeSpacesAndParentheses(String expression) {
+//		String resStr = expression.replaceAll("[() ]", ""); 
+//		return resStr;		
+//	}
+	private static String removeSpacesAndParentheses(String expression) {
+		return expression.replaceAll(" ", ""); 		
 	}
 }
