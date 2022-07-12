@@ -21,7 +21,7 @@ public class Strings {
 				}
 			}
 		}
-		return parenthesesCount == 0 || false;
+		return parenthesesCount == 0;
 	}
 	private static String removeSpacesAndParentheses(String expression) {
 		return expression.replaceAll(" ", ""); 		
